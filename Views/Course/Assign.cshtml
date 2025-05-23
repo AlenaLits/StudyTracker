@@ -1,0 +1,22 @@
+﻿@{
+    var course = ViewBag.Course as StudyTracker.Models.Course;
+    var students = ViewBag.Students as List<Microsoft.AspNetCore.Identity.IdentityUser>;
+}
+
+<h2>Assign Course: @course?.Name</h2>
+
+<form asp-action="Assign" method="post">
+    <input type="hidden" name="courseId" value="@course?.Id" />
+    <div class="mb-3">
+        <label for="studentId" class="form-label">Select Student</label>
+        <select name="studentId" id="studentId" class="form-select">
+            <option value="">-- Select student --</option>
+            @foreach (var student in students)
+            {
+                <option value="@student.Id">@student.UserName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Assign</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Back to Courses</a>
+</form>

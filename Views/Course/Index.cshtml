@@ -1,0 +1,56 @@
+﻿@model StudyTracker.ViewModels.CoursesWithStudentsVm
+
+<h2>Courses</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add New Course</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Professor</th>
+            <th>Assigned Students</th> <!-- Новая колонка -->
+            <th>Assignments</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Assign to Student</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var courseVm in Model.Courses)
+        {
+            <tr>
+                <td>@courseVm.Course.Name</td>
+                <td>@courseVm.Course.Description</td>
+                <td>@courseVm.Course.ProfessorName</td>
+                <td>
+                    @foreach (var student in courseVm.AssignedStudents)
+                    {
+                        <div>@student.UserName</div>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@courseVm.Course.Id" class="btn btn-info btn-sm">View Assignments</a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@courseVm.Course.Id" class="btn btn-primary btn-sm">Edit</a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@courseVm.Course.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+                <td>
+                    <a asp-action="Assign" asp-route-courseId="@courseVm.Course.Id" class="btn btn-warning btn-sm">Assign to Student</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <a asp-controller="Report" asp-action="DownloadOverdueReport" class="btn btn-danger mb-3">
+        Скачать отчет по просроченным студентам (.xlsx)
+    </a>
+}

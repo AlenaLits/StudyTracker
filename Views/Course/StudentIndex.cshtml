@@ -1,0 +1,27 @@
+﻿@model StudyTracker.ViewModels.CoursesVm
+
+<h2>Мои курсы</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Professor</th>
+            <th>Assignments</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td>@course.Description</td>
+                <td>@course.ProfessorName</td>
+                <td>
+                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@course.Id" class="btn btn-info btn-sm">View Assignments</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+﻿@model StudyTracker.Models.Assignment
+
+<h2>Delete Assignment</h2>
+
+<p>Are you sure you want to delete the assignment: <strong>@Model.Name</strong>?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" asp-route-courseId="@Model.CourseId" class="btn btn-secondary ms-2">Cancel</a>
+</form>

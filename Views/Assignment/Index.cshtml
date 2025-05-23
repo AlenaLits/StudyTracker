@@ -1,0 +1,82 @@
+﻿@model StudyTracker.ViewModels.AssignmentsVm
+
+<h2>Assignments for course: @Model.CourseName</h2>
+
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create" asp-route-courseId="@Model.CourseId" class="btn btn-success">Add New Assignment</a>
+    </p>
+}
+
+<form method="get" asp-action="Index" asp-controller="Assignment">
+    <input type="hidden" name="courseId" value="@Model.CourseId" />
+
+    <label for="statusFilter" class="form-label">Фильтр по статусу:</label>
+    <select id="statusFilter" name="statusFilter" class="form-select w-auto d-inline-block me-3" onchange="this.form.submit()">
+        <option value="Все" selected="@(ViewBag.StatusFilter == null || ViewBag.StatusFilter == "Все" ? "selected" : null)">Все</option>
+        <option value="Не начато" selected="@(ViewBag.StatusFilter == "Не начато" ? "selected" : null)">Не начато</option>
+        <option value="В процессе" selected="@(ViewBag.StatusFilter == "В процессе" ? "selected" : null)">В процессе</option>
+        <option value="Завершено" selected="@(ViewBag.StatusFilter == "Завершено" ? "selected" : null)">Завершено</option>
+    </select>
+
+    <label class="form-label me-2">Сортировка по дедлайну:</label>
+    <a asp-action="Index" asp-route-courseId="@Model.CourseId" asp-route-statusFilter="@ViewBag.StatusFilter" asp-route-sortOrder="deadline_asc" class="btn btn-link p-0 me-2">По возрастанию</a>
+    <a asp-action="Index" asp-route-courseId="@Model.CourseId" asp-route-statusFilter="@ViewBag.StatusFilter" asp-route-sortOrder="deadline_desc" class="btn btn-link p-0 me-2">По убыванию</a>
+    <a asp-action="Index" asp-route-courseId="@Model.CourseId" asp-route-statusFilter="@ViewBag.StatusFilter" asp-route-sortOrder="" class="btn btn-link p-0">Без сортировки</a>
+</form>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Deadline</th>
+            <th></th> <!-- для кнопок действия -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var assignment in Model.Assignments)
+        {
+            <tr>
+                <td>@assignment.Name</td>
+                <td>@assignment.Description</td>
+                <td>@assignment.Status</td>
+                <td>@assignment.Deadline?.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (User.IsInRole("Student"))
+                    {
+                        <form asp-action="ChangeStatus" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@assignment.Id" />
+                            <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
+                                <option value="Не начато" selected="@("Не начато" == assignment.Status)">Не начато</option>
+                                <option value="В процессе" selected="@("В процессе" == assignment.Status)">В процессе</option>
+                                <option value="Завершено" selected="@("Завершено" == assignment.Status)">Завершено</option>
+                            </select>
+                            <noscript>
+                                <button type="submit" class="btn btn-sm btn-primary">Change</button>
+                            </noscript>
+                        </form>
+                    }
+                    else if (User.IsInRole("Administrator"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger btn-sm">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-controller="Course" asp-action="Index">Back to Courses</a>
+</p>
+
+@if (User.IsInRole("Student"))
+{
+    <a asp-controller="Report" asp-action="DownloadAssignmentsReport" asp-route-courseId="@Model.CourseId" class="btn btn-primary mb-3">
+        Скачать отчет по заданиям (.docx)
+    </a>
+}
