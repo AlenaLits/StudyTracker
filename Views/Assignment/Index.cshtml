@@ -1,11 +1,11 @@
 ﻿@model StudyTracker.ViewModels.AssignmentsVm
 
-<h2>Assignments for course: @Model.CourseName</h2>
+<h2>Задания по: @Model.CourseName</h2>
 
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a asp-action="Create" asp-route-courseId="@Model.CourseId" class="btn btn-success">Add New Assignment</a>
+        <a asp-action="Create" asp-route-courseId="@Model.CourseId" class="btn btn-success">Добавить новое задание</a>
     </p>
 }
 
@@ -29,10 +29,10 @@
 <table class="table table-bordered mt-3">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Deadline</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дедлайн</th>
             <th></th> <!-- для кнопок действия -->
         </tr>
     </thead>
@@ -55,28 +55,33 @@
                                 <option value="Завершено" selected="@("Завершено" == assignment.Status)">Завершено</option>
                             </select>
                             <noscript>
-                                <button type="submit" class="btn btn-sm btn-primary">Change</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
                             </noscript>
                         </form>
                     }
                     else if (User.IsInRole("Administrator"))
                     {
-                        <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary btn-sm">Редактировать</a>
+                        <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger btn-sm">Удалить</a>
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<p>
-    <a asp-controller="Course" asp-action="Index">Back to Courses</a>
-</p>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-controller="Course" asp-action="Index">Назад к курсам</a>
+    </p>
+}
 
 @if (User.IsInRole("Student"))
 {
     <a asp-controller="Report" asp-action="DownloadAssignmentsReport" asp-route-courseId="@Model.CourseId" class="btn btn-primary mb-3">
         Скачать отчет по заданиям (.docx)
     </a>
+    <p>
+        <a asp-controller="MyCourses" asp-action="Index">Назад к курсам</a>
+    </p>
 }

@@ -5,10 +5,10 @@
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Professor</th>
-            <th>Assignments</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Преподаватель</th>
+            <th>Задания</th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
                 <td>@course.Description</td>
                 <td>@course.ProfessorName</td>
                 <td>
-                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@course.Id" class="btn btn-info btn-sm">View Assignments</a>
+                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@course.Id" class="btn btn-info btn-sm">Задания</a>
                 </td>
             </tr>
         }

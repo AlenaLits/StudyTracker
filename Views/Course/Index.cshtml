@@ -1,22 +1,22 @@
 ﻿@model StudyTracker.ViewModels.CoursesWithStudentsVm
 
-<h2>Courses</h2>
+<h2>Курсы</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">Add New Course</a>
+    <a asp-action="Create" class="btn btn-success">Добавить новый курс</a>
 </p>
 
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Professor</th>
-            <th>Assigned Students</th> <!-- Новая колонка -->
-            <th>Assignments</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Assign to Student</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Преподаватель</th>
+            <th>Записанные студенты</th> <!-- Новая колонка -->
+            <th>Задания</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+            <th>Записать студента</th>
         </tr>
     </thead>
     <tbody>
@@ -33,16 +33,16 @@
                     }
                 </td>
                 <td>
-                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@courseVm.Course.Id" class="btn btn-info btn-sm">View Assignments</a>
+                    <a asp-controller="Assignment" asp-action="Index" asp-route-courseId="@courseVm.Course.Id" class="btn btn-info btn-sm">Задания</a>
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@courseVm.Course.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@courseVm.Course.Id" class="btn btn-primary btn-sm">Редактировать</a>
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@courseVm.Course.Id" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@courseVm.Course.Id" class="btn btn-danger btn-sm">Удалить</a>
                 </td>
                 <td>
-                    <a asp-action="Assign" asp-route-courseId="@courseVm.Course.Id" class="btn btn-warning btn-sm">Assign to Student</a>
+                    <a asp-action="Assign" asp-route-courseId="@courseVm.Course.Id" class="btn btn-warning btn-sm">Добавить студента</a>
                 </td>
             </tr>
         }

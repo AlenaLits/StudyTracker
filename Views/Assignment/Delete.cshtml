@@ -6,6 +6,6 @@
 
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" asp-route-courseId="@Model.CourseId" class="btn btn-secondary ms-2">Cancel</a>
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" asp-route-courseId="@Model.CourseId" class="btn btn-secondary ms-2">Отмена</a>
 </form>
